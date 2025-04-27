@@ -49,6 +49,14 @@ def main():
     scraper = GoodreadsReviewScraper(cache_dir=cache_dir)
     reviews_df = scraper.process_book_list(books_with_urls)
     
+    if reviews_df.empty:
+        required_columns = [
+            'book_id', 'title', 'author', 'goodreads_url',
+            'review_text', 'review_rating', 'reviewer_id',
+            'review_upvotes', 'review_date'
+        ]
+        reviews_df = pd.DataFrame(columns=required_columns)
+    
     reviews_df.to_csv(output_path, index=False)
     
     elapsed_time = time.time() - start_time
