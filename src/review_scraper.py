@@ -487,33 +487,7 @@ class GoodreadsReviewScraper:
         reviews = self.get_all_reviews(book_url)
         
         if not reviews:
-            logger.warning(f"No reviews found for {book_data.get('title', 'Unknown')}, adding mock reviews for testing")
-            reviews = [
-                {
-                    'review_text': f"Mock review 1 for {book_data.get('title', 'Unknown')}",
-                    'review_rating': 5,
-                    'reviewer_id': "mock_user1",
-                    'reviewer_name': "Mock User 1",
-                    'review_upvotes': 10,
-                    'review_downvotes': 0,
-                    'review_date': "2023-01-15T00:00:00",
-                    'review_url': f"{book_url}/reviews/1",
-                    'shelves': ["fiction", "favorites"],
-                    'comment_count': 2
-                },
-                {
-                    'review_text': f"Mock review 2 for {book_data.get('title', 'Unknown')}",
-                    'review_rating': 4,
-                    'reviewer_id': "mock_user2",
-                    'reviewer_name': "Mock User 2",
-                    'review_upvotes': 5,
-                    'review_downvotes': 0,
-                    'review_date': "2023-02-20T00:00:00",
-                    'review_url': f"{book_url}/reviews/2",
-                    'shelves': ["fiction"],
-                    'comment_count': 1
-                }
-            ]
+            logger.warning(f"No reviews found for {book_data.get('title', 'Unknown')}")
 
         logger.info(f"Scraped {len(reviews)} reviews for book: {book_data.get('title', 'Unknown')}")
 

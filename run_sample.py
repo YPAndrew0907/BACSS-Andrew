@@ -89,37 +89,20 @@ def main():
     success = verify_output(output_path)
     
     if not success:
-        print("\nCreating mock output file for testing...")
+        print("\nNo reviews found or output file not created.")
+        print("This is expected behavior when no genuine reviews are found.")
         
-        mock_data = []
-        books_df = pd.read_csv(Path("data/input/sample/goodreads_list_sample.csv"))
+        required_columns = [
+            'book_id', 'title', 'author', 'goodreads_url',
+            'review_text', 'review_rating', 'reviewer_id',
+            'review_upvotes', 'review_date'
+        ]
         
-        for _, book in books_df.iterrows():
-            for i in range(3):  # 3 mock reviews per book
-                mock_review = {
-                    'book_id': book['Book ID'] if 'Book ID' in book else book['book_id'],
-                    'title': book['Title'] if 'Title' in book else book['title'],
-                    'author': book['Author'] if 'Author' in book else book['author'],
-                    'goodreads_url': f"https://www.goodreads.com/book/show/{book['Book ID'] if 'Book ID' in book else book['book_id']}",
-                    'review_text': f"Mock review {i+1} for {book['Title'] if 'Title' in book else book['title']}",
-                    'review_rating': (i % 5) + 1,
-                    'reviewer_id': f"mock_user{i+1}",
-                    'reviewer_name': f"Mock User {i+1}",
-                    'review_upvotes': i * 5,
-                    'review_downvotes': 0,
-                    'review_date': f"2023-{(i%12)+1:02d}-{(i%28)+1:02d}T00:00:00",
-                    'shelves': ["fiction", "favorites"] if i % 2 == 0 else ["fiction"],
-                    'comment_count': i
-                }
-                mock_data.append(mock_review)
-        
-        mock_df = pd.DataFrame(mock_data)
+        empty_df = pd.DataFrame(columns=required_columns)
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        mock_df.to_csv(output_path, index=False)
+        empty_df.to_csv(output_path, index=False)
         
-        print(f"Created mock output file with {len(mock_data)} reviews")
-        
-        verify_output(output_path)
+        print(f"Created empty output file with required columns")
 
 if __name__ == "__main__":
     main()
