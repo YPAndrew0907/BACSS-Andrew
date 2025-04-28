@@ -18,20 +18,22 @@ This project provides a comprehensive solution for scraping book reviews from Go
 
 ```
 /
-├── src/
+├── src/                     # Core functionality
 │   ├── book_lookup.py       # Book search and URL matching
-│   └── review_scraper.py    # Review extraction and processing
-├── notebooks/
+│   ├── review_scraper.py    # Review extraction using HTML parsing
+│   └── next_data_scraper.py # Review extraction using __NEXT_DATA__
+├── notebooks/               # Jupyter notebooks
 │   └── demo.ipynb           # Demonstration notebook
-├── data/
+├── data/                    # Data directory
 │   ├── input/               # Input data directory
 │   │   └── goodreads_list.csv  # List of books to scrape
 │   ├── output/              # Output data directory
 │   │   └── reviews_output.csv  # Scraped reviews
 │   └── cache/               # Cache directory for HTTP responses
-├── reports/
+├── reports/                 # Reports directory
 │   └── methodology.md       # Methodology documentation
-└── tests/                   # Test directory
+├── tests/                   # Test directory
+└── *.py                     # Runner and utility scripts at root level
 ```
 
 ## Installation
@@ -55,27 +57,27 @@ pip install requests beautifulsoup4 rapidfuzz pandas tqdm tenacity pytest ruff
 
 ```bash
 # Run the book lookup to find Goodreads URLs
-python -m src.book_lookup
+python book_lookup.py
 
 # Run the review scraper to extract reviews
-python -m src.review_scraper
+python review_scraper.py
 ```
 
 ### Advanced Usage
 
 ```bash
 # Run with sample data
-python -m src.book_lookup --sample
-python -m src.review_scraper --sample
+python book_lookup.py --sample
+python review_scraper.py --sample
 
 # Run with verbose logging
-python -m src.review_scraper --verbose
+python review_scraper.py --verbose
 
 # Scrape a single book
-python -m src.review_scraper --single-book "https://www.goodreads.com/book/show/1885.Pride_and_Prejudice"
+python review_scraper.py --single-book "https://www.goodreads.com/book/show/1885.Pride_and_Prejudice"
 
 # Limit the number of pages to scrape
-python -m src.review_scraper --max-pages 5
+python review_scraper.py --max-pages 5
 ```
 
 ## Testing
