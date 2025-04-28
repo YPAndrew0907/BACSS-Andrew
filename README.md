@@ -18,20 +18,30 @@ This project provides a comprehensive solution for scraping book reviews from Go
 
 ```
 /
-├── src/
-│   ├── book_lookup.py       # Book search and URL matching
-│   └── review_scraper.py    # Review extraction and processing
-├── notebooks/
-│   └── demo.ipynb           # Demonstration notebook
-├── data/
+├── goodreads_scraper/       # Main package directory
+│   ├── core/                # Core functionality
+│   │   ├── book_lookup.py   # Book search and URL matching
+│   │   ├── review_scraper.py # Review extraction and processing
+│   │   └── next_data_scraper.py # NextJS data extraction
+│   ├── runners/             # Runner scripts
+│   │   ├── run_sample.py    # Run with sample data
+│   │   ├── run_full_scraper.py # Run full scraper
+│   │   └── ...              # Other runner scripts
+│   └── utils/               # Utility functions
+│       ├── check_output.py  # Output verification
+│       └── ...              # Other utility scripts
+├── notebooks/               # Jupyter notebooks
+│   └── demo.ipynb           # Demonstration notebook (to be added)
+├── data/                    # Data directory
 │   ├── input/               # Input data directory
-│   │   └── goodreads_list.csv  # List of books to scrape
+│   │   └── goodreads_list.csv  # List of books to scrape (to be added)
 │   ├── output/              # Output data directory
-│   │   └── reviews_output.csv  # Scraped reviews
+│   │   └── reviews_output.csv  # Scraped reviews (generated)
 │   └── cache/               # Cache directory for HTTP responses
-├── reports/
-│   └── methodology.md       # Methodology documentation
-└── tests/                   # Test directory
+├── reports/                 # Reports and documentation
+│   └── methodology.md       # Methodology documentation (to be added)
+├── tests/                   # Test directory
+└── setup.py                 # Package setup file
 ```
 
 ## Installation
@@ -55,27 +65,26 @@ pip install requests beautifulsoup4 rapidfuzz pandas tqdm tenacity pytest ruff
 
 ```bash
 # Run the book lookup to find Goodreads URLs
-python -m src.book_lookup
+python -m goodreads_scraper.runners.run_full_scraper
 
-# Run the review scraper to extract reviews
-python -m src.review_scraper
+# Run with sample data
+python -m goodreads_scraper.runners.run_sample
 ```
 
 ### Advanced Usage
 
 ```bash
-# Run with sample data
-python -m src.book_lookup --sample
-python -m src.review_scraper --sample
+# Run end-to-end test
+python -m goodreads_scraper.runners.run_end_to_end_test
 
-# Run with verbose logging
-python -m src.review_scraper --verbose
+# Run final tests
+python -m goodreads_scraper.runners.run_final_tests
 
-# Scrape a single book
-python -m src.review_scraper --single-book "https://www.goodreads.com/book/show/1885.Pride_and_Prejudice"
+# Run full dataset
+python -m goodreads_scraper.runners.run_full_dataset
 
-# Limit the number of pages to scrape
-python -m src.review_scraper --max-pages 5
+# Analyze test output
+python -m goodreads_scraper.runners.run_analyze_test_output
 ```
 
 ## Testing
@@ -94,7 +103,7 @@ pytest tests/test_matching.py
 
 Goodreads implements various anti-scraping measures that may affect the scraper's performance:
 
-1. **Adjusting Rate Limits**: If you encounter 429 (Too Many Requests) errors, you can modify the rate limiting in `src/review_scraper.py`:
+1. **Adjusting Rate Limits**: If you encounter 429 (Too Many Requests) errors, you can modify the rate limiting in `goodreads_scraper/core/review_scraper.py`:
 
    ```python
    # Find the _rate_limit method in GoodreadsReviewScraper class
@@ -103,7 +112,7 @@ Goodreads implements various anti-scraping measures that may affect the scraper'
        time.sleep(2)  # Increase this value (e.g., to 3-5 seconds) if you're being rate-limited
    ```
 
-2. **Customizing User-Agent**: If you're being blocked, try changing the User-Agent in `src/review_scraper.py`:
+2. **Customizing User-Agent**: If you're being blocked, try changing the User-Agent in `goodreads_scraper/core/review_scraper.py`:
 
    ```python
    # Find the headers in the __init__ method of GoodreadsReviewScraper class
@@ -126,7 +135,7 @@ Goodreads implements various anti-scraping measures that may affect the scraper'
 
 1. **No Reviews Found**: This is often due to JavaScript-loaded content. The scraper logs will indicate if this is the case.
 
-2. **Matching Issues**: If the scraper is not finding the correct book URLs, you can adjust the similarity threshold in `src/book_lookup.py`:
+2. **Matching Issues**: If the scraper is not finding the correct book URLs, you can adjust the similarity threshold in `goodreads_scraper/core/book_lookup.py`:
 
    ```python
    # Find the SIMILARITY_THRESHOLD constant
