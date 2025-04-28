@@ -1,6 +1,0 @@
-2025-04-27 15:47:47,296 - review_scraper - INFO - Starting review scraping process for data/output/goodreads_urls.csv
-2025-04-27 15:47:47,296 - review_scraper - ERROR - Input file not found: data/output/goodreads_urls.csv
-2025-04-27 15:47:47,296 - review_scraper - INFO - Running book lookup first...
-2025-04-27 15:47:47,305 - book_lookup - INFO - Starting book lookup process for data/input/goodreads_list.csv
-2025-04-27 15:47:47,480 - book_lookup - WARNING - Path /search may be disallowed by robots.txt
-2025-04-27 15:47:47,480 - book_lookup - WARNING - Path /book/show/ may be disallowed by robots.txt
